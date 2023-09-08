@@ -14,17 +14,13 @@ module.exports = {
             'warn',
             {
                 allowConstantExport: true,
-                "no-console": "warn",
-                "prefer-const": "error",
-                "quotes": ["error", "single"],
-                "jsx-quotes": ["error", "prefer-double"],
-                "indent": ["warn", 2],
-                "max-len": ["error", { "code": 120 }],
-                "import/order": ["error", {
-                    "groups": ["builtin", "external", "internal", "parent", "sibling", "index", "object", "type"],
-                    "newlines between": "always-and-inside-groups"
-                }]
             },
         ],
+        "no-console": "warn",
+        "prefer-const": "error",
+        "quotes": ["error", "single"],
+        "jsx-quotes": ["error", "prefer-double"],
+        "indent": ["warn", 2],
+        "max-len": ["error", { "code": 120 }],
     },
 }

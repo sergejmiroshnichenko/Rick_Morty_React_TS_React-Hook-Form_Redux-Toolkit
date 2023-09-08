@@ -1,6 +1,11 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+    max-width: 1440px;
+    margin: 0 auto;
+/ / padding: 2 rem;
+/ / text-align: center;
 }
+
+.wrapper {
+    color: var(--light-grey-color);
+}
+

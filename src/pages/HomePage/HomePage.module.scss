@@ -1,0 +1,18 @@
+.wrapper {
+  position: relative;
+
+  .iconCharacter {
+    position: absolute;
+    z-index: -1;
+    top: 7%;
+  }
+
+  .title {
+    font-size: 101.25px;
+    font-weight: 700;
+    text-align: center;
+    padding: 45px 0 55px;
+    letter-spacing: -0.02em;
+    line-height: 111px;
+  }
+}

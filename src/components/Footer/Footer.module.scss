@@ -1,0 +1,41 @@
+footer {
+  background: var(--footer-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 35px;
+  color: var(--light-grey-color);
+
+  .title {
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 22px;
+    max-width: 212px;
+    letter-spacing: -0.02em;
+    text-align: center;
+    margin-bottom: 33px;
+  }
+
+  .logoContainer {
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 35px 31px rgba(255, 255, 255, 0.2);
+  }
+
+  .list {
+    display: flex;
+    align-items: center;
+    gap: 27px;
+    margin: 0;
+    padding: 55px 0 11px;
+  }
+
+  p:last-child {
+    font-size: 12.5px;
+    margin-bottom: 50px;
+  }
+}
+
+
