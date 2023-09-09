@@ -16,7 +16,7 @@ module.exports = {
                 allowConstantExport: true,
             },
         ],
-        "no-console": "warn",
+        // "no-console": "warn",
         "prefer-const": "error",
         "quotes": ["error", "single"],
         "jsx-quotes": ["error", "prefer-double"],

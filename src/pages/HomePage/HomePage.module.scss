@@ -1,10 +1,10 @@
 .wrapper {
   position: relative;
 
-  .iconCharacter {
+  .iconCharacters {
     position: absolute;
     z-index: -1;
-    top: 7%;
+    top: 2%;
   }
 
   .title {
@@ -14,5 +14,17 @@
     padding: 45px 0 55px;
     letter-spacing: -0.02em;
     line-height: 111px;
+  }
+
+  .main {
+    background: var(--main-color);
+    padding: 40px 107px;
+
+    .contentContainer {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+    }
   }
 }
