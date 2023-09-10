@@ -26,8 +26,9 @@ export const fetchAllCharacters = createAsyncThunk<ICharacter[], undefined, { re
       if (response.status !== 200) {
         return rejectWithValue('Server error');
       }
-      console.log('response', response.data.results)
+
       return response.data.results;
+
     } catch (error) {
       return rejectWithValue('Error');
     }

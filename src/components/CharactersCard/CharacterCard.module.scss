@@ -6,6 +6,10 @@
   border-radius: 9px;
   overflow: hidden;
 
+  img {
+    flex-basis: 38%;
+  }
+
   .infoCharacter {
     margin: 12px;
 
@@ -66,3 +70,13 @@
     }
   }
 }
+
+.detailsPageCard {
+  height: 572px;
+  gap: 30px;
+
+  img {
+    flex-basis: 49%;
+  }
+}
+

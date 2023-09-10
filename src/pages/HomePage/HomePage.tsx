@@ -5,8 +5,9 @@ import styles from './HomePage.module.scss';
 import { PrimaryButton } from 'components/Button/Button.tsx';
 import { useAppDispatch, useAppSelector } from 'components/hooks/redux-hooks.ts';
 import { fetchAllCharacters } from 'store/slices/charactersSlice.ts';
-import CharactersCard from 'components/CharactersCard/CharactersCard.tsx';
+import { CharacterCard } from 'components/CharactersCard/CharacterCard.tsx';
 import { Audio } from 'react-loader-spinner'
+import { Link } from 'react-router-dom';
 
 
 export const HomePage: FC = () => {
@@ -27,10 +28,20 @@ export const HomePage: FC = () => {
 
         {error ?
           <h1>Error occurred : {error}</h1>
+
           : isLoading === 'resolved'
+
             ? <div className={styles.contentContainer}>
-              {characters?.map(character => <CharactersCard key={character.id} {...character} />)}
+
+              {characters?.map(character => {
+                return (
+                  <Link to={`/character/${character.id}`}>
+                    <CharacterCard key={character.id} {...character} />
+                  </Link>
+                )
+              })}
             </div>
+
             : <Audio
               height="150"
               width="150"
@@ -39,7 +50,6 @@ export const HomePage: FC = () => {
               wrapperStyle={{ justifyContent: 'center', borderRadius: '9px' }}
             />
         }
-
       </main>
     </Layout>
   );

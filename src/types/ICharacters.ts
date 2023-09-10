@@ -23,12 +23,16 @@ export interface ICharacter {
     name: string;
     status: string;
     species: string;
-    type: string;
-    gender: string;
+    type?: string;
+    gender?: string;
     origin: IOrigin;
     image: string;
     location: ILocation;
-    episode: string[];
-    url: string;
-    created: Date
+    episode?: string[];
+    url?: string;
+    created?: Date
+}
+
+export interface CharacterProps extends ICharacter {
+    isCharacter?: boolean;
 }

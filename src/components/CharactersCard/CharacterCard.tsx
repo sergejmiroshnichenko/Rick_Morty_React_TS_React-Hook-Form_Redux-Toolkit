@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import { ICharacter } from 'types/ICharacters.ts';
-import styles from './CharactersCard.module.scss'
+import { CharacterProps } from 'types/ICharacters.ts';
+import styles from './CharacterCard.module.scss'
 
 
-export const CharactersCard: FC<ICharacter> = ({ image, status, name, species, location, origin }) => {
+export const CharacterCard: FC<CharacterProps> = ({ image, status, name, species, location, origin, isCharacter }) => {
 
   const statusStyles: { [key: string]: string } = {
     Dead: styles.dotRed,
@@ -14,8 +14,8 @@ export const CharactersCard: FC<ICharacter> = ({ image, status, name, species, l
   const dotStyle = statusStyles[status] || '';
 
   return (
-    <div className={styles.cardWrapper}>
-      <img src={image} width={229} height={220} alt="character image"/>
+    <div className={`${styles.cardWrapper} ${isCharacter && styles.detailsPageCard}`}>
+      <img src={image} alt={`${name} image`}/>
 
       <div className={styles.infoCharacter}>
         <p className={styles.nameCharacter}>{name}</p>
@@ -32,4 +32,4 @@ export const CharactersCard: FC<ICharacter> = ({ image, status, name, species, l
   )
 };
 
-export default CharactersCard;
+export default CharacterCard;

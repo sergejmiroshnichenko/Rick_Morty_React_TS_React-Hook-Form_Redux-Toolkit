@@ -1,15 +1,12 @@
 import './variables.scss';
 import './App.css';
-import HomePage from 'pages/HomePage/HomePage.tsx';
-
-// import Characters from 'components/Item.tsx';
+import { AppRoutes } from 'routes/Routes.tsx';
 
 
 function App() {
   return (
     <>
-      <HomePage/>
-      {/*<Characters/>*/}
+      <AppRoutes/>
     </>
   );
 }
