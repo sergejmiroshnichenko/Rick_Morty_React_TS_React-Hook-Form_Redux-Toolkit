@@ -9,8 +9,7 @@ import { CharacterCard } from 'components/CharactersCard/CharacterCard.tsx';
 import { Link } from 'react-router-dom';
 import { IAllCharacters } from 'types/ICharacters.types.ts';
 import axios from 'axios';
-import Pagination from '@mui/material/Pagination';
-import { Stack } from '@mui/material';
+import { Pagination, Stack } from '@mui/material';
 import { Audio } from 'react-loader-spinner';
 
 
@@ -29,18 +28,19 @@ export const HomePage: FC = () => {
   }
 
   useEffect(() => {
+    if (!data) {
+      dispatch(fetchAllCharacters())
+    }
+  }, [data, dispatch])
+
+  useEffect(() => {
     axios.get<IAllCharacters>(`https://rickandmortyapi.com/api/character/?page=${currentPage}`).then(
       ({ data }) => {
-        dispatch(setCurrentPage(+currentPage));
+        dispatch(setCurrentPage(currentPage));
         dispatch(setCharacters(data));
       }
     );
   }, [currentPage, dispatch]);
-
-  useEffect(() => {
-    dispatch(fetchAllCharacters())
-  }, [dispatch])
-
 
   return (
     <Layout className={styles.wrapper}>

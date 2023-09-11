@@ -23,7 +23,8 @@ export const fetchAllCharacters = createAsyncThunk<IAllCharacters, undefined, { 
   async (_, { rejectWithValue }) => {
     try {
       await delay(200)
-      const response = await axios.get<IAllCharacters>('https://rickandmortyapi.com/api/character');
+      const response = await axios
+        .get<IAllCharacters>('https://rickandmortyapi.com/api/character');
 
       if (response.status !== 200) {
         return rejectWithValue('Server error');
@@ -57,6 +58,7 @@ const charactersSlice = createSlice({
       .addCase(fetchAllCharacters.fulfilled, (state, action) => {
         state.isLoading = 'resolved';
         state.data = action.payload;
+        state.currentPage = 1;
       })
       .addCase(fetchAllCharacters.rejected, (state, action) => {
         state.isLoading = 'rejected';
@@ -64,6 +66,7 @@ const charactersSlice = createSlice({
       })
   }
 })
+
 
 export const { setCurrentPage, setCharacters } = charactersSlice.actions;
 export default charactersSlice.reducer;

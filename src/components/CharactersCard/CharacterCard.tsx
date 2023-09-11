@@ -32,4 +32,3 @@ export const CharacterCard: FC<CharacterProps> = ({ image, status, name, species
   )
 };
 
-export default CharacterCard;
