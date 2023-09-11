@@ -1,4 +1,4 @@
-import { ICharacter } from 'types/ICharacters.ts';
+import { ICharacter } from 'types/ICharacters.types.ts';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { delay } from 'services/delay.ts';

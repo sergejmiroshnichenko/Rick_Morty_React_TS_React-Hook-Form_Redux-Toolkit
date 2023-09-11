@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IAllCharacters } from 'types/ICharacters.ts';
+import { IAllCharacters } from 'types/ICharacters.types.ts';
 
 const instance = axios.create({
   baseURL: 'https://rickandmortyapi.com/api',

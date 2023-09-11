@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { CharacterProps } from 'types/ICharacters.ts';
+import { CharacterProps } from 'types/ICharacters.types.ts';
 import styles from './CharacterCard.module.scss'
 
 

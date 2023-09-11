@@ -1,22 +1,24 @@
-import { IAllCharacters, ICharacter } from 'types/ICharacters.ts';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { IAllCharacters } from 'types/ICharacters.types.ts';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { delay } from 'services/delay.ts';
 
 
 interface CharactersState {
-    characters: ICharacter[];
+    data: IAllCharacters | null;
+    currentPage: number;
     isLoading: 'loading' | 'resolved' | 'rejected' | null;
     error: string;
 }
 
 const initialState: CharactersState = {
-  characters: [],
+  data: null,
+  currentPage: 1,
   isLoading: null,
   error: '',
 }
 
-export const fetchAllCharacters = createAsyncThunk<ICharacter[], undefined, { rejectValue: string }>(
+export const fetchAllCharacters = createAsyncThunk<IAllCharacters, undefined, { rejectValue: string }>(
   'characters/fetchCharacters',
   async (_, { rejectWithValue }) => {
     try {
@@ -27,7 +29,7 @@ export const fetchAllCharacters = createAsyncThunk<ICharacter[], undefined, { re
         return rejectWithValue('Server error');
       }
 
-      return response.data.results;
+      return response.data;
 
     } catch (error) {
       return rejectWithValue('Error');
@@ -38,7 +40,14 @@ export const fetchAllCharacters = createAsyncThunk<ICharacter[], undefined, { re
 const charactersSlice = createSlice({
   name: 'characters',
   initialState,
-  reducers: {},
+  reducers: {
+    setCharacters: (state, action: PayloadAction<IAllCharacters>) => {
+      state.data = action.payload;
+    },
+    setCurrentPage: (state, action: PayloadAction<number>) => {
+      state.currentPage = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchAllCharacters.pending, (state) => {
@@ -47,7 +56,7 @@ const charactersSlice = createSlice({
       })
       .addCase(fetchAllCharacters.fulfilled, (state, action) => {
         state.isLoading = 'resolved';
-        state.characters = action.payload
+        state.data = action.payload;
       })
       .addCase(fetchAllCharacters.rejected, (state, action) => {
         state.isLoading = 'rejected';
@@ -56,4 +65,5 @@ const charactersSlice = createSlice({
   }
 })
 
+export const { setCurrentPage, setCharacters } = charactersSlice.actions;
 export default charactersSlice.reducer;

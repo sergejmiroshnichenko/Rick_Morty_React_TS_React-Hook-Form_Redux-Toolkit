@@ -7,11 +7,10 @@ import { useParams } from 'react-router-dom';
 import { characterByIdClear, fetchCharacterById } from 'store/slices/characterByIdSlice.ts';
 import { CharacterCard } from 'components/CharactersCard/CharacterCard.tsx';
 import { Audio } from 'react-loader-spinner';
-import { CharacterProps } from 'types/ICharacters.ts';
-import s from './CharacterDetailsPage.module.scss'
+import { CharacterProps } from 'types/ICharacters.types.ts';
 
 
-const CharacterDetailsPage: FC<CharacterProps> = ({ isCharacter }) => {
+const CharacterDetailsPage: FC<CharacterProps> = () => {
 
   const { id } = useParams()
 
@@ -33,8 +32,7 @@ const CharacterDetailsPage: FC<CharacterProps> = ({ isCharacter }) => {
       <IconCharacters className={styles.iconCharacters}/>
       <h1 className={styles.title}>The Rick and Morty API</h1>
 
-      <main className={`${styles.main} ${isCharacter && s.mainDetails}`}>
-
+      <main className={styles.mainDetails}>
         {error ?
           <h1>Error occurred : {error}</h1>
           : isLoading === 'resolved'
@@ -62,6 +60,7 @@ const CharacterDetailsPage: FC<CharacterProps> = ({ isCharacter }) => {
               wrapperStyle={{ justifyContent: 'center', borderRadius: '9px' }}
             />
         }
+
       </main>
     </Layout>
   );

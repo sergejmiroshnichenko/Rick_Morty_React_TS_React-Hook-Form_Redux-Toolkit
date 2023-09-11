@@ -26,7 +26,7 @@
     }
 
     .contentContainer {
-      margin-top: 20px;
+      margin: 20px 0 30px;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 25px;
@@ -34,7 +34,8 @@
   }
 }
 
-.main {
+.mainDetails {
   padding: 80px 110px 252px;
+  background: var(--main-color);
 }
 
