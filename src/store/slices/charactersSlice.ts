@@ -2,6 +2,7 @@ import { IAllCharacters } from 'types/ICharacters.types.ts';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { delay } from 'services/delay.ts';
+import { BASE_URL } from 'services/constants.ts';
 
 
 interface CharactersState {
@@ -23,8 +24,7 @@ export const fetchAllCharacters = createAsyncThunk<IAllCharacters, undefined, { 
   async (_, { rejectWithValue }) => {
     try {
       await delay(200)
-      const response = await axios
-        .get<IAllCharacters>('https://rickandmortyapi.com/api/character');
+      const response = await axios.get<IAllCharacters>(`${BASE_URL}/character`);
 
       if (response.status !== 200) {
         return rejectWithValue('Server error');

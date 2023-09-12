@@ -9,8 +9,10 @@ import { CharacterCard } from 'components/CharactersCard/CharacterCard.tsx';
 import { Link } from 'react-router-dom';
 import { IAllCharacters } from 'types/ICharacters.types.ts';
 import axios from 'axios';
-import { Pagination, Stack } from '@mui/material';
 import { Audio } from 'react-loader-spinner';
+import { PaginationBar } from 'components/PaginationBar/PaginationBar.tsx';
+import { BASE_URL } from 'services/constants.ts';
+import { FilterDropdown } from 'components/FilterDropdown/FilterDropdown.tsx';
 
 
 export const HomePage: FC = () => {
@@ -24,9 +26,6 @@ export const HomePage: FC = () => {
     setIsFilterActive(!isFilterActive)
   }
 
-  const findHandleClick = () => {
-  }
-
   useEffect(() => {
     if (!data) {
       dispatch(fetchAllCharacters())
@@ -34,7 +33,7 @@ export const HomePage: FC = () => {
   }, [data, dispatch])
 
   useEffect(() => {
-    axios.get<IAllCharacters>(`https://rickandmortyapi.com/api/character/?page=${currentPage}`).then(
+    axios.get<IAllCharacters>(`${BASE_URL}/character/?page=${currentPage}`).then(
       ({ data }) => {
         dispatch(setCurrentPage(currentPage));
         dispatch(setCharacters(data));
@@ -48,9 +47,14 @@ export const HomePage: FC = () => {
       <h1 className={styles.title}>The Rick and Morty API</h1>
 
       <main className={styles.main}>
-        <PrimaryButton onClick={toggleButton}>{!isFilterActive ? 'FILTER' : 'REMOVE FILTER'}</PrimaryButton>
 
-        {isFilterActive && <PrimaryButton onClick={findHandleClick}>FIND</PrimaryButton>}
+        <div className={styles.filterNavigation}>
+          <PrimaryButton onClick={toggleButton}>
+            {!isFilterActive ? 'FILTER' : 'REMOVE FILTER'}
+          </PrimaryButton>
+
+          {isFilterActive && <FilterDropdown/>}
+        </div>
 
         {error ?
           <h1>Error occurred : {error}</h1>
@@ -62,56 +66,15 @@ export const HomePage: FC = () => {
 
                   {data?.results?.slice(0, 6).map(character => {
                     return (
-                      <Link to={`/character/${character.id}`}>
-                        <CharacterCard key={character.id} {...character} />
+                      <Link to={`/character/${character.id}`} key={character.id}>
+                        <CharacterCard {...character} />
                       </Link>
                     )
                   })}
                 </div>
-                <Stack spacing={2}>
-                  <Pagination
-                    count={6}
-                    page={currentPage}
-                    variant="outlined"
-                    shape="rounded"
-                    size="large"
-                    onChange={(_, numPage) => {
-                      dispatch(setCurrentPage(numPage));
-                    }}
-                    sx={{
-                      '.css-wjh20t-MuiPagination-ul': {
-                        display: 'flex',
-                        justifyContent: 'center',
-                      },
-                      '.css-kvsszq-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected': {
-                        background: '#F5F5F5',
-                        color: '#202329',
-                        '&:hover': {
-                          background: '#9E9E9E',
-                        },
-                      },
-                      '.css-19xm0h7-MuiButtonBase-root-MuiPaginationItem-root.Mui-disabled': {
-                        background: '#9E9E9E',
-                        color: 'rgba(39, 43, 51, 0.6)'
-                      },
-                      '.MuiPaginationItem-page': {
-                        background: '#3C3E44',
-                        color: '#F5F5F5',
-                        fontSize: 16
-                      },
-                      '.MuiPaginationItem-previousNext ': {
-                        background: '#F5F5F5',
-                        color: '#272B33',
-                        '&:hover': {
-                          background: '#9E9E9E',
-                        },
-                      },
-                    }}
-                  />
-                </Stack>
+                <PaginationBar currentPage={currentPage}/>
               </>
             )
-
             : <Audio
               height="150"
               width="150"

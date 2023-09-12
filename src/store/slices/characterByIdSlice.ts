@@ -2,6 +2,7 @@ import { ICharacter } from 'types/ICharacters.types.ts';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { delay } from 'services/delay.ts';
+import { BASE_URL } from 'services/constants.ts';
 
 
 interface CharacterByIdState {
@@ -21,7 +22,7 @@ export const fetchCharacterById = createAsyncThunk<ICharacter, number, { rejectV
   async (characterId, { rejectWithValue }) => {
     try {
       await delay(200)
-      const response = await axios.get<ICharacter>(`https://rickandmortyapi.com/api/character/${characterId}`);
+      const response = await axios.get<ICharacter>(`${BASE_URL}/character/${characterId}`);
 
       if (response.status !== 200) {
         return rejectWithValue('Server error');
