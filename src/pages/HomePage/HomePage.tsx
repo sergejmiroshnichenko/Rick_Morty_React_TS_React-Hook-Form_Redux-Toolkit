@@ -63,14 +63,11 @@ export const HomePage: FC = () => {
             ? (
               <>
                 <div className={styles.contentContainer}>
-
-                  {data?.results?.slice(0, 6).map(character => {
-                    return (
-                      <Link to={`/character/${character.id}`} key={character.id}>
-                        <CharacterCard {...character} />
-                      </Link>
-                    )
-                  })}
+                  {data?.results?.slice(0, 6).map(character => (
+                    <Link to={`/character/${character.id}`} key={character.id}>
+                      <CharacterCard {...character} />
+                    </Link>
+                  ))}
                 </div>
                 <PaginationBar currentPage={currentPage}/>
               </>

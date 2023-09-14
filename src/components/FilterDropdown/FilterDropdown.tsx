@@ -1,59 +1,33 @@
-import {
-  Checkbox,
-  FormControl,
-  InputLabel,
-  ListItemText,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  styled
-} from '@mui/material';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { FormData } from 'types/IFormData.types.ts';
-import { PrimaryButton } from 'components/Button/Button.tsx';
 import { useState } from 'react';
+import { Checkbox, FormControl, InputLabel, ListItemText, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { PrimaryButton } from 'components/Button/Button.tsx';
+import { StyledFormControl } from './FilterDropDown.styles.ts';
+import { FilterOptionsData } from './FilterDropDown.data.ts';
+import styles from './FilterDropdown.module.scss';
 
-const StyledFormControl = styled(FormControl)({
-  backgroundColor: '#F5F5F5',
-  borderRadius: '4px 4px 0 0',
-  flexDirection: 'row',
-  background: 'transparent',
-  marginLeft: '155px',
-  gap: 25,
-  label: {
-    letterSpacing: 0.5,
-    color: '#272B33',
-  },
-  '.css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root': {
-    background: '#F5F5F5',
-    width: '260px',
-
-    '&:hover': {
-      backgroundColor: '#e7e1e1',
-    },
-
-    '&:first-of-type': {
-      width: '213px'
-    },
-  },
-})
+export interface FormData {
+    selectedOptions: string[];
+}
 
 export const FilterDropdown = () => {
   const { handleSubmit, control } = useForm<FormData>();
 
   const [keywords, setKeywords] = useState<string[]>([]);
 
+  const [isActiveSelect, setIsActiveSelect] = useState(false);
+
   const onSubmit: SubmitHandler<FormData> = (data) => {
     console.log(data);
   };
 
-  const getFilterData = () => {
-    console.log('click')
-  }
+  const setBackground = () => {
+    console.log('open');
+    setIsActiveSelect(true);
+  };
 
   const handleMainSelectChange = (event: SelectChangeEvent<string[]>) => {
-
-    const selectedKeywords = [];
+    const selectedKeywords: string[] = [];
     if (event.target.value.includes('Character')) {
       selectedKeywords.push('Add Name', 'Add Status', 'Add Species', 'Add Type', 'Add Gender');
     }
@@ -66,56 +40,59 @@ export const FilterDropdown = () => {
     setKeywords(selectedKeywords);
   };
 
+  const getFilterData = () => {
+    setIsActiveSelect(!isActiveSelect)
+  }
+
   return (
-    <form noValidate onSubmit={handleSubmit(onSubmit)}>
-      <StyledFormControl>
-        <InputLabel>Select Item</InputLabel>
-        <Controller
-          name="selectedOptions"
-          control={control}
-          defaultValue={[]}
-          render={({ field }) => (
+    <div className={isActiveSelect ? styles.backgroundOverlay : ''}
+      onClick={() => setIsActiveSelect(false)}>
+      <form noValidate onSubmit={handleSubmit(onSubmit)}
+        onClick={(e) => e.stopPropagation()}>
+        <StyledFormControl>
+          <InputLabel>Select Item</InputLabel>
+          <Controller
+            name="selectedOptions"
+            control={control}
+            defaultValue={[]}
+            render={({ field }) => (
+              <Select
+                onOpen={setBackground}
+                multiple
+                {...field}
+                onChange={(e) => {
+                  field.onChange(e);
+                  handleMainSelectChange(e);
+                }}
+                renderValue={(selected) => selected.join(', ')}
+              >
+                {FilterOptionsData.map(filterOption => (
+                  <MenuItem value={filterOption.optionValue} key={filterOption.optionValue}>
+                    <ListItemText primary={filterOption.optionValue}/>
+                    <Checkbox checked={field.value.includes(filterOption.optionValue)}/>
+                  </MenuItem>
+                ))}
+              </Select>
+            )}
+          />
+          <FormControl>
+            <InputLabel>Add key words to find</InputLabel>
             <Select
               multiple
-              {...field}
-              onChange={(e) => {
-                field.onChange(e);
-                handleMainSelectChange(e);
-              }}
+              value={keywords}
+              onChange={(e) => setKeywords(e.target.value as string[])}
               renderValue={(selected) => selected.join(', ')}
             >
-              <MenuItem value="Character">
-                <ListItemText primary="Character"/>
-                <Checkbox checked={field.value.includes('Character')}/>
-              </MenuItem>
-              <MenuItem value="Location">
-                <ListItemText primary="Location"/>
-                <Checkbox checked={field.value.includes('Location')}/>
-              </MenuItem>
-              <MenuItem value="Episodes">
-                <ListItemText primary="Episodes"/>
-                <Checkbox checked={field.value.includes('Episodes')}/>
-              </MenuItem>
+              {keywords.map((keyword) => (
+                <MenuItem key={keyword} value={keyword}>
+                  <ListItemText primary={keyword}/>
+                </MenuItem>
+              ))}
             </Select>
-          )}
-        />
-        <FormControl>
-          <InputLabel>Add key words to find</InputLabel>
-          <Select
-            multiple
-            value={keywords}
-            onChange={(e) => setKeywords(e.target.value as string[])}
-            renderValue={(selected) => selected.join(', ')}
-          >
-            {keywords.map((keyword) => (
-              <MenuItem key={keyword} value={keyword}>
-                <ListItemText primary={keyword}/>
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <PrimaryButton onClick={getFilterData}>FIND</PrimaryButton>
-      </StyledFormControl>
-    </form>
+          </FormControl>
+          <PrimaryButton onClick={getFilterData}>FIND</PrimaryButton>
+        </StyledFormControl>
+      </form>
+    </div>
   );
 };
