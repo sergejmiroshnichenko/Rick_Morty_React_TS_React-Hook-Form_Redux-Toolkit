@@ -14,13 +14,10 @@ export const StyledFormControl = styled(FormControl)({
   '.css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root': {
     background: '#F5F5F5',
     width: '260px',
+    height: '57px',
 
     '&:hover': {
       backgroundColor: '#e7e1e1',
-    },
-
-    '&:first-of-type': {
-      width: '213px'
     },
   },
 })

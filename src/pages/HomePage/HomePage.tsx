@@ -3,16 +3,16 @@ import { Layout } from 'components/Layout/Layout.tsx';
 import { ReactComponent as IconCharacters } from 'assets/SVG.svg';
 import styles from './HomePage.module.scss';
 import { PrimaryButton } from 'components/Button/Button.tsx';
-import { useAppDispatch, useAppSelector } from 'components/hooks/redux-hooks.ts';
+import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks.ts';
 import { fetchAllCharacters, setCharacters, setCurrentPage } from 'store/slices/charactersSlice.ts';
 import { CharacterCard } from 'components/CharactersCard/CharacterCard.tsx';
 import { Link } from 'react-router-dom';
 import { IAllCharacters } from 'types/ICharacters.types.ts';
 import axios from 'axios';
-import { Audio } from 'react-loader-spinner';
 import { PaginationBar } from 'components/PaginationBar/PaginationBar.tsx';
 import { BASE_URL } from 'services/constants.ts';
 import { FilterDropdown } from 'components/FilterDropdown/FilterDropdown.tsx';
+import { Loader } from 'components/Loader/Loader.tsx';
 
 
 export const HomePage: FC = () => {
@@ -72,13 +72,7 @@ export const HomePage: FC = () => {
                 <PaginationBar currentPage={currentPage}/>
               </>
             )
-            : <Audio
-              height="150"
-              width="150"
-              color="green"
-              ariaLabel="loading"
-              wrapperStyle={{ justifyContent: 'center', borderRadius: '9px' }}
-            />
+            : <Loader/>
         }
       </main>
     </Layout>

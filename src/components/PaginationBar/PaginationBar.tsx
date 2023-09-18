@@ -1,6 +1,6 @@
 import { Pagination, Stack } from '@mui/material';
 import { setCurrentPage } from 'store/slices/charactersSlice.ts';
-import { useAppDispatch } from 'components/hooks/redux-hooks.ts';
+import { useAppDispatch } from '../../hooks/redux-hooks.ts';
 import { FC } from 'react';
 import '../../variables.scss'
 

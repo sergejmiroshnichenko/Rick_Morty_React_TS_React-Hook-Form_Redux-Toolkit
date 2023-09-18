@@ -23,7 +23,7 @@ export const fetchAllCharacters = createAsyncThunk<IAllCharacters, undefined, { 
   'characters/fetchCharacters',
   async (_, { rejectWithValue }) => {
     try {
-      await delay(200)
+      await delay(300)
       const response = await axios.get<IAllCharacters>(`${BASE_URL}/character`);
 
       if (response.status !== 200) {

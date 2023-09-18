@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from 'components/hooks/redux-hooks.ts';
+import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks.ts';
 import { FC, useEffect } from 'react';
 import styles from '../HomePage/HomePage.module.scss';
 import { Layout } from 'components/Layout/Layout.tsx';
@@ -6,8 +6,8 @@ import { ReactComponent as IconCharacters } from 'assets/SVG.svg';
 import { useParams } from 'react-router-dom';
 import { characterByIdClear, fetchCharacterById } from 'store/slices/characterByIdSlice.ts';
 import { CharacterCard } from 'components/CharactersCard/CharacterCard.tsx';
-import { Audio } from 'react-loader-spinner';
 import { CharacterProps } from 'types/ICharacters.types.ts';
+import { Loader } from 'components/Loader/Loader.tsx';
 
 
 const CharacterDetailsPage: FC<CharacterProps> = () => {
@@ -51,16 +51,8 @@ const CharacterDetailsPage: FC<CharacterProps> = () => {
                 />
               )}
             </>
-
-            : <Audio
-              height="150"
-              width="150"
-              color="green"
-              ariaLabel="loading"
-              wrapperStyle={{ justifyContent: 'center', borderRadius: '9px' }}
-            />
+            : <Loader/>
         }
-
       </main>
     </Layout>
   );

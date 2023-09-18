@@ -1,0 +1,21 @@
+.loader {
+  display: flex;
+  width: 25%;
+  margin: 32px auto 0;
+  animation: rotate 2000ms infinite;
+
+  @media screen and (min-width: 768px) {
+    width: 20%;
+    margin-top: 100px;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(-360deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
