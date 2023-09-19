@@ -4,15 +4,15 @@ import { ReactComponent as IconCharacters } from 'assets/SVG.svg';
 import styles from './HomePage.module.scss';
 import { PrimaryButton } from 'components/Button/Button.tsx';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks.ts';
-import { fetchAllCharacters, setCharacters, setCurrentPage } from 'store/slices/charactersSlice.ts';
+import { fetchAllCharacters, setCharacters, setPageQuantity } from 'store/slices/charactersSlice.ts';
 import { CharacterCard } from 'components/CharactersCard/CharacterCard.tsx';
 import { Link } from 'react-router-dom';
-import { IAllCharacters } from 'types/ICharacters.types.ts';
-import axios from 'axios';
 import { PaginationBar } from 'components/PaginationBar/PaginationBar.tsx';
-import { BASE_URL } from 'services/constants.ts';
 import { FilterDropdown } from 'components/FilterDropdown/FilterDropdown.tsx';
 import { Loader } from 'components/Loader/Loader.tsx';
+import { BASE_URL } from 'services/constants.ts';
+import { IAllCharacters } from 'types/ICharacters.types.ts';
+import axios from 'axios';
 
 
 export const HomePage: FC = () => {
@@ -20,7 +20,7 @@ export const HomePage: FC = () => {
 
   const dispatch = useAppDispatch();
 
-  const { data, error, isLoading, currentPage } = useAppSelector(state => state.characters);
+  const { data, error, isLoading, currentPage, searchCharacters } = useAppSelector(state => state.characters);
 
   const toggleButton = () => {
     setIsFilterActive(!isFilterActive)
@@ -33,24 +33,25 @@ export const HomePage: FC = () => {
   }, [data, dispatch])
 
   useEffect(() => {
-    axios.get<IAllCharacters>(`${BASE_URL}/character/?page=${currentPage}`).then(
+
+    axios.get<IAllCharacters>(`${BASE_URL}/character/?page=${currentPage}&name=${searchCharacters}`).then(
       ({ data }) => {
-        dispatch(setCurrentPage(currentPage));
+        dispatch(setPageQuantity(data.info.pages));
         dispatch(setCharacters(data));
       }
     );
-  }, [currentPage, dispatch]);
+  }, [searchCharacters, dispatch, currentPage]);
 
   return (
     <Layout className={styles.wrapper}>
       <IconCharacters className={styles.iconCharacters}/>
       <h1 className={styles.title}>The Rick and Morty API</h1>
 
-      <main className={styles.main}>
+      <section className={styles.main}>
 
         <div className={styles.filterNavigation}>
           <PrimaryButton onClick={toggleButton}>
-            {!isFilterActive ? 'FILTER' : 'REMOVE FILTER'}
+            {isFilterActive ? 'REMOVE FILTER' : 'FILTER'}
           </PrimaryButton>
 
           {isFilterActive && <FilterDropdown/>}
@@ -63,18 +64,18 @@ export const HomePage: FC = () => {
             ? (
               <>
                 <div className={styles.contentContainer}>
-                  {data?.results?.slice(0, 6).map(character => (
+                  {data?.results?.map(character => (
                     <Link to={`/character/${character.id}`} key={character.id}>
                       <CharacterCard {...character} />
                     </Link>
                   ))}
                 </div>
-                <PaginationBar currentPage={currentPage}/>
+                <PaginationBar/>
               </>
             )
             : <Loader/>
         }
-      </main>
+      </section>
     </Layout>
   );
 };

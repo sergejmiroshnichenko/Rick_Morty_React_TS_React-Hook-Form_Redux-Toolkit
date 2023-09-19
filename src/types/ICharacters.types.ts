@@ -1,7 +1,7 @@
 export interface IAllCharacters {
     info: {
         count: number;
-        pages?: number;
+        pages: number;
         next?: string | null;
         prev?: string | null;
     };

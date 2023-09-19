@@ -10,13 +10,17 @@ interface CharactersState {
     currentPage: number;
     isLoading: 'loading' | 'resolved' | 'rejected' | null;
     error: string;
+    searchCharacters: string;
+    pageQuantity: number;
 }
 
 const initialState: CharactersState = {
   data: null,
   currentPage: 1,
+  pageQuantity: 0,
   isLoading: null,
   error: '',
+  searchCharacters: ''
 }
 
 export const fetchAllCharacters = createAsyncThunk<IAllCharacters, undefined, { rejectValue: string }>(
@@ -48,6 +52,13 @@ const charactersSlice = createSlice({
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
     },
+    setPageQuantity: (state, action: PayloadAction<number>) => {
+      state.pageQuantity = action.payload;
+    },
+
+    setSearchCharacters: (state, action: PayloadAction<string>) => {
+      state.searchCharacters = action.payload;
+    }
   },
   extraReducers: builder => {
     builder
@@ -67,6 +78,5 @@ const charactersSlice = createSlice({
   }
 })
 
-
-export const { setCurrentPage, setCharacters } = charactersSlice.actions;
+export const { setCurrentPage, setCharacters, setSearchCharacters, setPageQuantity } = charactersSlice.actions;
 export default charactersSlice.reducer;

@@ -33,7 +33,7 @@ export const MultiSelect: FC<MultiSelectProps> = ({
       render={({ field }) => (
         <Select
           onOpen={onOpen}
-          id="mySelect"
+          id="multiSelect"
           multiple
           {...field}
           onChange={(e) => {

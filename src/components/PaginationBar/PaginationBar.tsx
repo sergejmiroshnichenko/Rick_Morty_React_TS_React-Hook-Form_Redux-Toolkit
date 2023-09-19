@@ -1,21 +1,19 @@
 import { Pagination, Stack } from '@mui/material';
 import { setCurrentPage } from 'store/slices/charactersSlice.ts';
-import { useAppDispatch } from '../../hooks/redux-hooks.ts';
+import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks.ts';
 import { FC } from 'react';
 import '../../variables.scss'
 
+export const PaginationBar: FC = () => {
 
-interface IPaginationBarProps {
-    currentPage: number
-}
-
-export const PaginationBar: FC<IPaginationBarProps> = ({ currentPage }) => {
+  const { currentPage, pageQuantity } = useAppSelector(state => state.characters);
 
   const dispatch = useAppDispatch()
+
   return (
     <Stack spacing={2}>
-      <Pagination
-        count={6}
+      {!!pageQuantity && <Pagination
+        count={pageQuantity}
         page={currentPage}
         variant="outlined"
         shape="rounded"
@@ -52,7 +50,7 @@ export const PaginationBar: FC<IPaginationBarProps> = ({ currentPage }) => {
             },
           },
         }}
-      />
+      />}
     </Stack>
   );
 };
