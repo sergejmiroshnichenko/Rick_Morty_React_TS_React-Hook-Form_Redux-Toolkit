@@ -13,6 +13,7 @@ import { Loader } from 'components/Loader/Loader.tsx';
 import { BASE_URL } from 'services/constants.ts';
 import { IAllCharacters } from 'types/ICharacters.types.ts';
 import axios from 'axios';
+import { CharactersInteractionMenu } from 'components/CharactersInteractionMenu/CharactersInteractionMenu.tsx';
 
 
 export const HomePage: FC = () => {
@@ -33,7 +34,6 @@ export const HomePage: FC = () => {
   }, [data, dispatch])
 
   useEffect(() => {
-
     axios.get<IAllCharacters>(`${BASE_URL}/character/?page=${currentPage}&name=${searchCharacters}`).then(
       ({ data }) => {
         dispatch(setPageQuantity(data.info.pages));
@@ -64,12 +64,13 @@ export const HomePage: FC = () => {
             ? (
               <>
                 <div className={styles.contentContainer}>
-                  {data?.results?.map(character => (
+                  {data?.results?.slice(0, 6).map(character => (
                     <Link to={`/character/${character.id}`} key={character.id}>
                       <CharacterCard {...character} />
                     </Link>
                   ))}
                 </div>
+                <CharactersInteractionMenu/>
                 <PaginationBar/>
               </>
             )

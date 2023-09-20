@@ -8,15 +8,17 @@ import { BASE_URL } from 'services/constants.ts';
 interface FilterCharactersState {
     data: IAllCharacters | null;
     currentPage: number;
-    isLoading: 'loading' | 'resolved' | 'rejected' | null;
+    isFilterLoading: 'loading' | 'resolved' | 'rejected' | null;
     error: string;
+    pageQuantity: number,
 }
 
 const initialState: FilterCharactersState = {
   data: null,
   currentPage: 1,
-  isLoading: null,
+  isFilterLoading: null,
   error: '',
+  pageQuantity: 0,
 }
 
 export const fetchFilterCharacters = createAsyncThunk<IAllCharacters, { [key: string]: string }, {
@@ -45,28 +47,27 @@ const filterCharacterSlice = createSlice({
   name: 'filterCharacter',
   initialState,
   reducers: {
-    setFilteredCharacterData: (_, action) => {
-      return action.payload;
-    },
+    // setFilteredCharacterData: (_, action) => {
+    //   return action.payload;
+    // },
   },
   extraReducers: builder => {
     builder
       .addCase(fetchFilterCharacters.pending, (state) => {
-        state.isLoading = 'loading';
+        state.isFilterLoading = 'loading';
         state.error = ''
       })
       .addCase(fetchFilterCharacters.fulfilled, (state, action) => {
-        state.isLoading = 'resolved';
+        state.isFilterLoading = 'resolved';
         state.data = action.payload;
         state.currentPage = 1;
       })
       .addCase(fetchFilterCharacters.rejected, (state, action) => {
-        state.isLoading = 'rejected';
+        state.isFilterLoading = 'rejected';
         state.error = action.payload ?? '';
       })
   }
 })
 
-
-export const { setFilteredCharacterData } = filterCharacterSlice.actions;
+// export const { setFilteredCharacterData } = filterCharacterSlice.actions;
 export default filterCharacterSlice.reducer;

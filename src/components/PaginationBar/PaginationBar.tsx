@@ -49,6 +49,9 @@ export const PaginationBar: FC = () => {
               background: 'var(--light-grey-color)',
             },
           },
+          '.css-1scal0h-MuiPaginationItem-root': {
+            color: 'var(--silver-color)',
+          },
         }}
       />}
     </Stack>

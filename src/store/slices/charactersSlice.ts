@@ -7,20 +7,20 @@ import { BASE_URL } from 'services/constants.ts';
 
 interface CharactersState {
     data: IAllCharacters | null;
-    currentPage: number;
     isLoading: 'loading' | 'resolved' | 'rejected' | null;
     error: string;
     searchCharacters: string;
+    currentPage: number;
     pageQuantity: number;
 }
 
 const initialState: CharactersState = {
   data: null,
-  currentPage: 1,
-  pageQuantity: 0,
   isLoading: null,
   error: '',
-  searchCharacters: ''
+  searchCharacters: '',
+  currentPage: 1,
+  pageQuantity: 0,
 }
 
 export const fetchAllCharacters = createAsyncThunk<IAllCharacters, undefined, { rejectValue: string }>(
@@ -49,16 +49,15 @@ const charactersSlice = createSlice({
     setCharacters: (state, action: PayloadAction<IAllCharacters>) => {
       state.data = action.payload;
     },
+    setSearchCharacters: (state, action: PayloadAction<string>) => {
+      state.searchCharacters = action.payload;
+    },
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
     },
     setPageQuantity: (state, action: PayloadAction<number>) => {
       state.pageQuantity = action.payload;
     },
-
-    setSearchCharacters: (state, action: PayloadAction<string>) => {
-      state.searchCharacters = action.payload;
-    }
   },
   extraReducers: builder => {
     builder

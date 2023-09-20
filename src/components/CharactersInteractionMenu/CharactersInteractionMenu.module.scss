@@ -1,0 +1,38 @@
+.buttonWrapper {
+  position: relative;
+
+  .iconButton {
+    color: #3C3E44;
+    width: 40px;
+    height: 40px;
+    background: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    right: -1.5%;
+    bottom: 5px;
+
+    &:hover {
+      background: #9E9E9E;
+    }
+  }
+
+  .smallButton:first-child {
+    top: -180px;
+  }
+
+  .smallButton:nth-child(2) {
+    top: -125px;
+  }
+
+  .mediumButton {
+    width: 56px;
+    height: 56px;
+    right: -2.2%;
+  }
+}
+
+

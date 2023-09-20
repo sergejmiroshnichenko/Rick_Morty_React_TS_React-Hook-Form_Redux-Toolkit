@@ -8,6 +8,7 @@ import { characterByIdClear, fetchCharacterById } from 'store/slices/characterBy
 import { CharacterCard } from 'components/CharactersCard/CharacterCard.tsx';
 import { CharacterProps } from 'types/ICharacters.types.ts';
 import { Loader } from 'components/Loader/Loader.tsx';
+import { CharactersInteractionMenu } from 'components/CharactersInteractionMenu/CharactersInteractionMenu.tsx';
 
 
 const CharacterDetailsPage: FC<CharacterProps> = () => {
@@ -32,7 +33,7 @@ const CharacterDetailsPage: FC<CharacterProps> = () => {
       <IconCharacters className={styles.iconCharacters}/>
       <h1 className={styles.title}>The Rick and Morty API</h1>
 
-      <main className={styles.mainDetails}>
+      <section className={styles.mainDetails}>
         {error ?
           <h1>Error occurred : {error}</h1>
           : isLoading === 'resolved'
@@ -50,10 +51,11 @@ const CharacterDetailsPage: FC<CharacterProps> = () => {
                   isCharacter
                 />
               )}
+              <CharactersInteractionMenu/>
             </>
             : <Loader/>
         }
-      </main>
+      </section>
     </Layout>
   );
 };

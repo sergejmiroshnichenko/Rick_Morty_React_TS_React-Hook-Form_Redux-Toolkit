@@ -20,11 +20,11 @@ interface FormData {
     species: string,
     gender: string,
     type: string,
-    // dimension: string,
-    // nameLocation: string,
-    // typeLocation: string,
-    // nameEpisode: string,
-    // episode: string,
+    dimension: string,
+    nameLocation: string,
+    typeLocation: string,
+    nameEpisode: string,
+    episode: string,
 }
 
 export const FilterDropdown: FC = () => {
@@ -40,11 +40,11 @@ export const FilterDropdown: FC = () => {
       species: '',
       gender: '',
       type: '',
-      // dimension: '',
-      // nameLocation: '',
-      // typeLocation: '',
-      // nameEpisode: '',
-      // episode: '',
+      dimension: '',
+      nameLocation: '',
+      typeLocation: '',
+      nameEpisode: '',
+      episode: '',
     },
   })
 
@@ -79,17 +79,16 @@ export const FilterDropdown: FC = () => {
     if (event.target.value.includes('Character')) {
       selectedKeywords['character'] = ['name', 'status', 'species', 'type', 'gender'];
     }
-    // if (event.target.value.includes('Location')) {
-    //   selectedKeywords['location'] = ['nameLocation', 'typeLocation', 'dimension'];
-    // }
-    // if (event.target.value.includes('Episodes')) {
-    //   selectedKeywords['episodes'] = ['nameEpisodes', 'episodes'];
-    // }
+    if (event.target.value.includes('Location')) {
+      selectedKeywords['location'] = ['nameLocation', 'typeLocation', 'dimension'];
+    }
+    if (event.target.value.includes('Episodes')) {
+      selectedKeywords['episodes'] = ['nameEpisodes', 'episodes'];
+    }
     console.log('selectedKeywords', Object.values(selectedKeywords))
     console.log('keywords', keywords)
 
     setKeywords(selectedKeywords);
-
   };
 
   const getFilterData = () => {
@@ -101,16 +100,14 @@ export const FilterDropdown: FC = () => {
     getFilterData();
   }
 
+    type FilterComponent = {
+        [key: string]: JSX.Element;
+    };
+
     type FilterComponents = {
-        character: {
-            [key: string]: JSX.Element;
-        };
-        // location: {
-        //     [key: string]: JSX.Element;
-        // };
-        // episodes: {
-        //     [key: string]: JSX.Element;
-        // };
+        character: FilterComponent;
+        location: FilterComponent;
+        episodes: FilterComponent;
     };
 
     const filterComponents: FilterComponents = {
@@ -130,17 +127,7 @@ export const FilterDropdown: FC = () => {
           />
         ),
         species: (
-          <SelectComponent
-            name="species"
-            label="Add Species"
-            options={[
-              { value: 'Human', label: 'Human' },
-              { value: 'Humanoid', label: 'Humanoid' },
-              { value: 'Alien', label: 'Alien' },
-              { value: 'Animal', label: 'Animal' },
-              { value: 'Robot', label: 'Robot' },
-            ]}
-          />
+          <Input label={'Add Species'} name={'species'}/>
         ),
         gender: (
           <SelectComponent
@@ -155,38 +142,28 @@ export const FilterDropdown: FC = () => {
           />
         ),
         type: (
-          <SelectComponent
-            name="type"
-            label="Add Type"
-            options={[
-              { value: 'Pickle', label: 'Pickle' },
-              { value: 'Superhuman', label: 'Superhuman' },
-              { value: 'Elephant-Person', label: 'Elephant-Person' },
-              { value: 'Clone', label: 'Clone' },
-              { value: 'Dog', label: 'Dog' },
-            ]}
-          />
+          <Input label={'Add Type'} name={'type'}/>
         ),
       },
-      // location: {
-      //   nameLocation: (
-      //     <Input label="Add NameLocation" name={'nameLocation'}/>
-      //   ),
-      //   typeLocation: (
-      //     <Input label="Add TypeLocation" name={'typeLocation'}/>
-      //   ),
-      //   dimension: (
-      //     <Input label="Add Dimension" name={'dimension'}/>
-      //   ),
-      // },
-      // episodes: {
-      //   nameEpisodes: (
-      //     <Input label="Add NameEpisode" name={'nameEpisode'}/>
-      //   ),
-      //   episodes: (
-      //     <Input label="Add Episode" name={'episode'}/>
-      //   ),
-      // },
+      location: {
+        nameLocation: (
+          <Input label="Add NameLocation" name={'nameLocation'}/>
+        ),
+        typeLocation: (
+          <Input label="Add TypeLocation" name={'typeLocation'}/>
+        ),
+        dimension: (
+          <Input label="Add Dimension" name={'dimension'}/>
+        ),
+      },
+      episodes: {
+        nameEpisodes: (
+          <Input label="Add NameEpisode" name={'nameEpisode'}/>
+        ),
+        episodes: (
+          <Input label="Add Episode" name={'episode'}/>
+        ),
+      },
     }
 
     return (
@@ -201,18 +178,18 @@ export const FilterDropdown: FC = () => {
                 handleMainSelectChange={handleMainSelectChange}
               />
 
-              <div style={{ background: 'white', width: 260, borderRadius: '4px' }}>
+              <div style={{ background: '#F5F5F5', width: 260, borderRadius: '4px' }}>
                 {isActiveSelect ? (
                   <>
                     {keywords?.character && keywords.character.map((field, index) => (
                       <div key={index}>{filterComponents.character[field]}</div>
                     ))}
-                    {/*{keywords?.location && keywords.location.map((field, index) => (*/}
-                    {/*  <div key={index}>{filterComponents.location[field]}</div>*/}
-                    {/*))}*/}
-                    {/*{keywords?.episodes && keywords.episodes.map((field, index) => (*/}
-                    {/*  <div key={index}>{filterComponents.episodes[field]}</div>*/}
-                    {/*))}*/}
+                    {keywords?.location && keywords.location.map((field, index) => (
+                      <div key={index}>{filterComponents.location[field]}</div>
+                    ))}
+                    {keywords?.episodes && keywords.episodes.map((field, index) => (
+                      <div key={index}>{filterComponents.episodes[field]}</div>
+                    ))}
                   </>
                 ) : (
                   <Input label={'Add key words to find'} name={''} isSearchKeyword
