@@ -1,5 +1,5 @@
 import { Box, Button, Drawer, Typography } from '@mui/material';
-import { FC } from 'react';
+import { FC, ReactElement } from 'react';
 import { useAppSelector } from 'hooks/redux-hooks.ts';
 
 interface DrawerComponentProps {
@@ -9,7 +9,7 @@ interface DrawerComponentProps {
 
 interface historyItem {
     title: string,
-    text: string | JSX.Element
+    text: string | ReactElement
 }
 
 export const DrawerComponent: FC<DrawerComponentProps> = ({ isOpen, onClose }) => {
@@ -22,7 +22,7 @@ export const DrawerComponent: FC<DrawerComponentProps> = ({ isOpen, onClose }) =
 
   const historyItems: historyItem[] = []
 
-  const addToHistory = (title: string, text: string | JSX.Element) => {
+  const addToHistory = (title: string, text: string | ReactElement) => {
     const newItem = { title, text }
     historyItems.push(newItem)
   }

@@ -1,26 +1,16 @@
 import { Checkbox, ListItemText, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
 import { FC } from 'react';
+import { filterOptionsData } from './MultiSelect.data.ts';
 
-const filterOptionsData = [
-  { optionValue: 'Character' },
-  { optionValue: 'Location' },
-  { optionValue: 'Episodes' },
-]
 
 interface MultiSelectProps {
     name: string;
     onOpen: () => void;
-    shouldCallOnChange: boolean;
-    handleMainSelectChange?: (e: SelectChangeEvent<string[]>) => void;
+    onChangeMultiSelect?: (e: SelectChangeEvent<string[]>) => void;
 }
 
-export const MultiSelect: FC<MultiSelectProps> = ({
-  onOpen,
-  name,
-  handleMainSelectChange,
-  shouldCallOnChange,
-}) => {
+export const MultiSelect: FC<MultiSelectProps> = ({ onOpen, name, onChangeMultiSelect }) => {
 
   const { control } = useFormContext();
 
@@ -37,16 +27,16 @@ export const MultiSelect: FC<MultiSelectProps> = ({
           {...field}
           onChange={(e) => {
             field.onChange(e);
-            if (shouldCallOnChange && handleMainSelectChange) {
-              handleMainSelectChange(e);
+            if (onChangeMultiSelect) {
+              onChangeMultiSelect(e);
             }
           }}
           renderValue={(selected) => selected.join(', ')}
         >
-          {filterOptionsData.map(filterOption => (
-            <MenuItem value={filterOption.optionValue} key={filterOption.optionValue}>
-              <ListItemText primary={filterOption.optionValue}/>
-              <Checkbox checked={field.value.includes(filterOption.optionValue)}/>
+          {filterOptionsData.map(({ optionValue }) => (
+            <MenuItem value={optionValue} key={optionValue}>
+              <ListItemText primary={optionValue}/>
+              <Checkbox checked={field.value.includes(optionValue)}/>
             </MenuItem>
           ))}
         </Select>

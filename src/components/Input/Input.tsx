@@ -1,12 +1,8 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import { FC, useCallback } from 'react';
 import { debounce, TextField } from '@mui/material';
+import { IInputProps } from './Input.types.ts';
 
-interface IInputProps {
-    name: string;
-    label: string;
-    setSearchKeyword?: (value: string) => void;
-}
 
 export const Input: FC<IInputProps> = ({ name, label, setSearchKeyword, ...props }) => {
   const { control } = useFormContext();

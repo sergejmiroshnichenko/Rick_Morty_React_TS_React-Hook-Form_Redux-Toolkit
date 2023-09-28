@@ -1,11 +1,17 @@
-// export const filterOptionsData = [
-//   { optionValue: 'Character' },
-//   { optionValue: 'Location' },
-//   { optionValue: 'Episodes' },
-// ]
-
-export const filter = {
-  character: ['Add Name', 'Add Status', 'Add Species', 'Add Type', 'Add Gender'],
-  location: [],
-  episodes: [],
+interface optionItem {
+    value: string;
+    label: string;
 }
+
+export const statusOptions: optionItem[] = [
+  { value: 'Alive', label: 'Alive' },
+  { value: 'Dead', label: 'Dead' },
+  { value: 'Unknown', label: 'Unknown' },
+]
+
+export const genderOptions: optionItem[] = [
+  { value: 'Male', label: 'Male' },
+  { value: 'Female', label: 'Female' },
+  { value: 'Genderless ', label: 'Genderless ' },
+  { value: 'Unknown ', label: 'Unknown ' },
+]
