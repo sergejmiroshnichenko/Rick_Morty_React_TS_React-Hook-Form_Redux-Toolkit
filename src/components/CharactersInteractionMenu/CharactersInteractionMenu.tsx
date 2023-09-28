@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import MenuIcon from '@mui/icons-material/MoreVert';
 import CloseIcon from '@mui/icons-material/Close';
 import { ReactComponent as HistoryIcon } from 'assets/history-icon.svg'
@@ -6,8 +6,14 @@ import { ReactComponent as DownloadIcon } from 'assets/download-icon.svg'
 import { DrawerComponent } from 'components/Drawer/Drawer.tsx';
 import styles from './CharactersInteractionMenu.module.scss'
 import cx from 'classnames';
+import { Button } from '@mui/material';
 
-export const CharactersInteractionMenu = () => {
+
+interface CharactersInteractionMenuProps {
+    disabled?: boolean
+}
+
+export const CharactersInteractionMenu: FC<CharactersInteractionMenuProps> = ({ disabled }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -29,25 +35,25 @@ export const CharactersInteractionMenu = () => {
       <div className={styles.buttonWrapper}>
         {isMenuOpen ? (
           <>
-            <div className={cx(styles.iconButton, styles.smallButton)}
+            <Button className={cx(styles.iconButton, styles.smallButton)}
               onClick={openDrawer}>
               <HistoryIcon fontSize="medium"/>
-            </div>
-            <div className={cx(styles.iconButton, styles.smallButton)}
-            >
+            </Button>
+            <Button disabled={disabled}
+              className={cx(styles.iconButton, styles.smallButton)}>
               <DownloadIcon fontSize="medium"/>
-            </div>
-            <div className={cx(styles.iconButton, styles.mediumButton)} onClick={toggleMenu}>
+            </Button>
+            <Button className={cx(styles.iconButton, styles.mediumButton)} onClick={toggleMenu}>
               <CloseIcon fontSize="medium"/>
-            </div>
+            </Button>
           </>
         ) : (
-          <div className={cx(styles.iconButton, styles.mediumButton)} onClick={toggleMenu}>
+          <Button className={cx(styles.iconButton, styles.mediumButton)} onClick={toggleMenu}>
             <MenuIcon fontSize="medium"/>
-          </div>
+          </Button>
         )}
       </div>
       <DrawerComponent isOpen={isDrawerOpen} onClose={closeDrawer}/>
     </>
-  );
-};
+  )
+}

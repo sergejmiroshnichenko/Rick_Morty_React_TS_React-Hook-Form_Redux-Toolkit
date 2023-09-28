@@ -51,7 +51,7 @@ const CharacterDetailsPage: FC<CharacterProps> = () => {
                   isCharacter
                 />
               )}
-              <CharactersInteractionMenu/>
+              <CharactersInteractionMenu disabled/>
             </>
             : <Loader/>
         }

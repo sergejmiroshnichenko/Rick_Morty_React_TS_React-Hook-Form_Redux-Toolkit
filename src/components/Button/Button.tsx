@@ -1,22 +1,31 @@
 import { FC, ReactNode } from 'react';
-import { StyledButton } from './Button.styles.ts';
 import '../../variables.scss'
+import { Button } from '@mui/material';
 
 interface PrimaryButtonProps {
     children: ReactNode;
+    color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning',
     onClick: () => void
 }
 
-export const PrimaryButton: FC<PrimaryButtonProps> = ({ children, onClick, ...props }) => {
+export const PrimaryButton: FC<PrimaryButtonProps> = ({ children, onClick, color, ...props }) => {
   return (
-    <StyledButton
-      variant="contained"
+    <Button
+      variant={'contained'}
+      color={color}
       type="submit"
       size="medium"
       disableElevation
       onClick={onClick}
-      {...props}>
+      {...props}
+      style={{
+        width: '160px',
+        height: '57px',
+        fontSize: 16,
+        letterSpacing: '-0.03em',
+      }}
+    >
       {children}
-    </StyledButton>
+    </Button>
   );
 };

@@ -1,19 +1,24 @@
 import { Controller, useFormContext } from 'react-hook-form';
-import { FC } from 'react';
-import { TextField } from '@mui/material';
-import { setCurrentPage } from 'store/slices/charactersSlice.ts';
-import { useAppDispatch } from 'hooks/redux-hooks.ts';
+import { FC, useCallback } from 'react';
+import { debounce, TextField } from '@mui/material';
 
 interface IInputProps {
     name: string;
     label: string;
-    isSearchKeyword?: boolean;
     setSearchKeyword?: (value: string) => void;
 }
 
-export const Input: FC<IInputProps> = ({ name, label, isSearchKeyword, setSearchKeyword, ...props }) => {
+export const Input: FC<IInputProps> = ({ name, label, setSearchKeyword, ...props }) => {
   const { control } = useFormContext();
-  const dispatch = useAppDispatch()
+
+  const handleInputChange = useCallback(
+    debounce((value: string) => {
+      if (setSearchKeyword) {
+        setSearchKeyword(value);
+      }
+    }, 300),
+    [setSearchKeyword]
+  );
 
   return (
     <Controller
@@ -21,14 +26,10 @@ export const Input: FC<IInputProps> = ({ name, label, isSearchKeyword, setSearch
       name={name}
       render={({ field }) => (
         <TextField
-          {...field}
           {...props}
           onChange={(e) => {
-            dispatch(setCurrentPage(1))
             field.onChange(e.target.value);
-            if (isSearchKeyword && setSearchKeyword) {
-              setSearchKeyword(e.target.value)
-            }
+            handleInputChange(e.target.value)
           }}
           label={label}
           variant="outlined"

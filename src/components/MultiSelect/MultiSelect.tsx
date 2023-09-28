@@ -2,7 +2,6 @@ import { Checkbox, ListItemText, MenuItem, Select, SelectChangeEvent } from '@mu
 import { Controller, useFormContext } from 'react-hook-form';
 import { FC } from 'react';
 
-
 const filterOptionsData = [
   { optionValue: 'Character' },
   { optionValue: 'Location' },

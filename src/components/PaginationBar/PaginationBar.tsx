@@ -6,7 +6,7 @@ import '../../variables.scss'
 
 export const PaginationBar: FC = () => {
 
-  const { currentPage, pageQuantity } = useAppSelector(state => state.characters);
+  const { page, pageQuantity } = useAppSelector(state => state.characters);
 
   const dispatch = useAppDispatch()
 
@@ -14,7 +14,7 @@ export const PaginationBar: FC = () => {
     <Stack spacing={2}>
       {!!pageQuantity && <Pagination
         count={pageQuantity}
-        page={currentPage}
+        page={page}
         variant="outlined"
         shape="rounded"
         size="large"

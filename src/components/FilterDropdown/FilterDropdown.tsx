@@ -8,23 +8,27 @@ import { SelectComponent } from 'components/Select/Select.tsx';
 import { Input } from 'components/Input/Input.tsx';
 import { MultiSelect } from 'components/MultiSelect/MultiSelect.tsx';
 import { useAppDispatch } from 'hooks/redux-hooks.ts';
-import { fetchFilterCharacters } from 'store/slices/filterCharacterSlice.ts';
-import { setSearchCharacters } from 'store/slices/charactersSlice.ts';
+import { fetchAllCharacters, setSearchCharacters } from 'store/slices/charactersSlice.ts';
 
 interface FormData {
     selectedOptions: string[];
-
     // [key: string]: string | string[]
-    name: string,
-    status: string,
-    species: string,
-    gender: string,
-    type: string,
-    dimension: string,
-    nameLocation: string,
-    typeLocation: string,
-    nameEpisode: string,
-    episode: string,
+    character: {
+        name: string,
+        status: string,
+        species: string,
+        gender: string,
+        type: string,
+    },
+    location: {
+        dimension: string,
+        name: string,
+        type: string,
+    },
+    episode: {
+        name: string,
+        episode: string,
+    }
 }
 
 export const FilterDropdown: FC = () => {
@@ -35,41 +39,44 @@ export const FilterDropdown: FC = () => {
 
   const methods = useForm<FormData>({
     defaultValues: {
-      name: '',
-      status: '',
-      species: '',
-      gender: '',
-      type: '',
-      dimension: '',
-      nameLocation: '',
-      typeLocation: '',
-      nameEpisode: '',
-      episode: '',
+      character: {
+        name: '',
+        status: '',
+        species: '',
+        gender: '',
+        type: '',
+      },
+      location: {
+        dimension: '',
+        name: '',
+        type: '',
+      },
+      episode: {
+        name: '',
+        episode: '',
+      }
     },
   })
 
   const dispatch = useAppDispatch()
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(data);
-    dispatch(fetchFilterCharacters({
-      name: data.name,
-      gender: data.gender,
-      status: data.status,
-      type: data.type,
-      species: data.species,
-    }))
+  const onSubmit: SubmitHandler<FormData> = (filterData) => {
+    console.log(filterData);
+    dispatch(fetchAllCharacters(filterData))
     methods.reset();
     setIsActiveSelect(false);
     setKeywords({});
   };
 
+  // const characterP = useWatch({ name: 'character', control: methods.control });
+  // console.log(characterP)
+
   const setBackground = () => {
     setIsActiveSelect(true);
   };
 
-  const handleSearchForCharacters = (searchCharacters: string) => {
-    dispatch(setSearchCharacters(searchCharacters))
+  const handleSearchForCharacters = (inputValue: string) => {
+    dispatch(setSearchCharacters(inputValue));
   }
 
   const handleMainSelectChange = (event: SelectChangeEvent<string[]>) => {
@@ -77,13 +84,15 @@ export const FilterDropdown: FC = () => {
     const selectedKeywords: { [key: string]: string[] } = {};
 
     if (event.target.value.includes('Character')) {
-      selectedKeywords['character'] = ['name', 'status', 'species', 'type', 'gender'];
+      selectedKeywords['character'] = [
+        'name', 'status', 'species', 'type', 'gender'
+      ];
     }
     if (event.target.value.includes('Location')) {
-      selectedKeywords['location'] = ['nameLocation', 'typeLocation', 'dimension'];
+      selectedKeywords['location'] = ['name', 'type', 'dimension'];
     }
     if (event.target.value.includes('Episodes')) {
-      selectedKeywords['episodes'] = ['nameEpisodes', 'episodes'];
+      selectedKeywords['episodes'] = ['name', 'episodes'];
     }
     console.log('selectedKeywords', Object.values(selectedKeywords))
     console.log('keywords', keywords)
@@ -91,13 +100,13 @@ export const FilterDropdown: FC = () => {
     setKeywords(selectedKeywords);
   };
 
-  const getFilterData = () => {
-    setIsActiveSelect(!isActiveSelect);
-  }
+  // const getFilterData = () => {
+  //   setIsActiveSelect(!isActiveSelect);
+  // }
 
   const handleButtonClick = (e: ChangeEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    getFilterData();
+    // setIsActiveSelect(!isActiveSelect)
   }
 
     type FilterComponent = {
@@ -113,11 +122,11 @@ export const FilterDropdown: FC = () => {
     const filterComponents: FilterComponents = {
       character: {
         name: (
-          <Input label={'Add Name'} name={'name'}/>
+          <Input label={'Add Name'} name={'character.name'}/>
         ),
         status: (
           <SelectComponent
-            name="status"
+            name="character.status"
             label="Add Status"
             options={[
               { value: 'Alive', label: 'Alive' },
@@ -127,11 +136,11 @@ export const FilterDropdown: FC = () => {
           />
         ),
         species: (
-          <Input label={'Add Species'} name={'species'}/>
+          <Input label={'Add Species'} name={'character.species'}/>
         ),
         gender: (
           <SelectComponent
-            name="gender"
+            name="character.gender"
             label="Add Gender"
             options={[
               { value: 'Male', label: 'Male' },
@@ -142,26 +151,26 @@ export const FilterDropdown: FC = () => {
           />
         ),
         type: (
-          <Input label={'Add Type'} name={'type'}/>
+          <Input label={'Add Type'} name={'character.type'}/>
         ),
       },
       location: {
-        nameLocation: (
-          <Input label="Add NameLocation" name={'nameLocation'}/>
+        name: (
+          <Input label="Add NameLocation" name={'location.name'}/>
         ),
-        typeLocation: (
-          <Input label="Add TypeLocation" name={'typeLocation'}/>
+        type: (
+          <Input label="Add TypeLocation" name={'location.type'}/>
         ),
         dimension: (
-          <Input label="Add Dimension" name={'dimension'}/>
+          <Input label="Add Dimension" name={'location.dimension'}/>
         ),
       },
       episodes: {
-        nameEpisodes: (
-          <Input label="Add NameEpisode" name={'nameEpisode'}/>
+        name: (
+          <Input label="Add NameEpisode" name={'episode.name'}/>
         ),
         episodes: (
-          <Input label="Add Episode" name={'episode'}/>
+          <Input label="Add Episode" name={'episode.episode'}/>
         ),
       },
     }
@@ -192,13 +201,13 @@ export const FilterDropdown: FC = () => {
                     ))}
                   </>
                 ) : (
-                  <Input label={'Add key words to find'} name={''} isSearchKeyword
+                  <Input label={'Add key words to find'} name={'character.name'}
                     setSearchKeyword={handleSearchForCharacters}
                   />
                 )}
               </div>
 
-              <PrimaryButton onClick={() => handleButtonClick}>FIND</PrimaryButton>
+              <PrimaryButton color="inherit" onClick={() => handleButtonClick}>FIND</PrimaryButton>
             </StyledFormControl>
           </form>
         </FormProvider>
