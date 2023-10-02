@@ -31,7 +31,7 @@ export const HomePage: FC = () => {
   }, [characters, dispatch])
 
   useEffect(() => {
-    dispatch(fetchAllCharacters({ character: { page, name: searchCharacters } }))
+    dispatch(fetchAllCharacters({ character: { page, name: searchCharacters } }));
   }, [page, dispatch, searchCharacters])
 
   return (

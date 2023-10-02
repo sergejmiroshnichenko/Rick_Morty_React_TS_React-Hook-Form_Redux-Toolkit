@@ -4,13 +4,11 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { PrimaryButton } from 'components/Button/Button.tsx';
 import { StyledFormControl } from './FilterDropDown.styles.ts';
 import styles from './FilterDropdown.module.scss';
-import { SelectComponent } from 'components/Select/Select.tsx';
 import { Input } from 'components/Input/Input.tsx';
 import { MultiSelect } from 'components/MultiSelect/MultiSelect.tsx';
 import { useAppDispatch } from 'hooks/redux-hooks.ts';
 import { fetchAllCharacters, setSearchCharacters } from 'store/slices/charactersSlice.ts';
-import { genderOptions, statusOptions } from './FilterDropDown.data.ts';
-import { FilterComponentsProps } from './FilterDropDown.types.ts';
+import { filterComponents } from 'components/FilterComponents/FilterComponents.tsx';
 
 interface FormData {
     selectedOptions: string[];
@@ -70,8 +68,8 @@ export const FilterDropdown: FC = () => {
     setKeywords({});
   };
 
-  // const characterP = useWatch({ name: 'character', control: methods.control });
-  // console.log(characterP)
+  // const characterW = useWatch({ name: 'character', control: methods.control });
+  // console.log(characterW)
 
   const setBackground = () => {
     setIsActiveSelect(true);
@@ -102,60 +100,9 @@ export const FilterDropdown: FC = () => {
     setKeywords(selectedKeywords);
   };
 
-  // const getFilterData = () => {
-  //   setIsActiveSelect(!isActiveSelect);
-  // }
-
   const handleButtonClick = (e: ChangeEvent<HTMLButtonElement>) => {
     e.preventDefault();
     // setIsActiveSelect(!isActiveSelect)
-  }
-
-  const filterComponents: FilterComponentsProps = {
-    character: {
-      name: (
-        <Input label={'Add Name'} name={'character.name'}/>
-      ),
-      status: (
-        <SelectComponent
-          name="character.status"
-          label="Add Status"
-          options={statusOptions}
-        />
-      ),
-      species: (
-        <Input label={'Add Species'} name={'character.species'}/>
-      ),
-      gender: (
-        <SelectComponent
-          name="character.gender"
-          label="Add Gender"
-          options={genderOptions}
-        />
-      ),
-      type: (
-        <Input label={'Add Type'} name={'character.type'}/>
-      ),
-    },
-    location: {
-      name: (
-        <Input label="Add NameLocation" name={'location.name'}/>
-      ),
-      type: (
-        <Input label="Add TypeLocation" name={'location.type'}/>
-      ),
-      dimension: (
-        <Input label="Add Dimension" name={'location.dimension'}/>
-      ),
-    },
-    episodes: {
-      name: (
-        <Input label="Add NameEpisode" name={'episode.name'}/>
-      ),
-      episodes: (
-        <Input label="Add Episode" name={'episode.episode'}/>
-      ),
-    },
   }
 
   return (

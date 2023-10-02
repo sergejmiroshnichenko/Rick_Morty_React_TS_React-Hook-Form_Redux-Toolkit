@@ -9,7 +9,7 @@ interface DrawerComponentProps {
 
 interface historyItem {
     title: string,
-    text: string | ReactElement
+    text: string | ReactElement,
 }
 
 export const DrawerComponent: FC<DrawerComponentProps> = ({ isOpen, onClose }) => {

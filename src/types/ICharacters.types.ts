@@ -77,7 +77,7 @@ export interface IEpisodeFilter {
 }
 
 export interface ILocation {
-    id: number
+    id: string
     name: string
     type: string
     dimension: string

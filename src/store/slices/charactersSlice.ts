@@ -23,6 +23,7 @@ interface CharactersState {
     searchCharacters: string;
     page: number;
     pageQuantity: number;
+    filteredCharacters: ICharacter[] | null;
 }
 
 const initialState: CharactersState = {
@@ -34,6 +35,12 @@ const initialState: CharactersState = {
   searchCharacters: '',
   page: 1,
   pageQuantity: 0,
+  filteredCharacters: null,
+}
+
+const getIdFromUrl = (url: string) => {
+  const parts = url.split('/');
+  return parts[parts.length - 1];
 }
 
 export const fetchAllCharacters = createAsyncThunk<IGetFilterCharacterRequest,
@@ -50,7 +57,9 @@ export const fetchAllCharacters = createAsyncThunk<IGetFilterCharacterRequest,
 
           console.log('response >>>>>', characterResponse.data);
 
-          if (characterResponse.status !== 200 && locationResponse.status !== 200 && episodeResponse.status !== 200) {
+          if (characterResponse.status !== 200 &&
+                locationResponse.status !== 200 &&
+                episodeResponse.status !== 200) {
             return rejectWithValue('Server error');
           }
           return {
@@ -81,6 +90,12 @@ const charactersSlice = createSlice({
     setPageQuantity: (state, action: PayloadAction<number>) => {
       state.pageQuantity = action.payload;
     },
+    setFilteredCharacters: (state) => {
+      state.filteredCharacters = state.characters.filter(character => {
+        const locationId = getIdFromUrl(character.location.url);
+        return state.locations.some(location => locationId === String(location.id));
+      })
+    }
   },
   extraReducers: builder => {
     builder
@@ -94,6 +109,13 @@ const charactersSlice = createSlice({
         state.episodes = action.payload.episode.results;
         state.locations = action.payload.location.results;
         state.pageQuantity = action.payload.characters.info.pages;
+
+        const testData = state.characters.filter(character => {
+          const locationId = getIdFromUrl(character.location.url)
+          return state.locations.some(location => locationId === String(location.id));
+          // return 1) есть ли ид локации && есть id эпизода
+        })
+        console.log('testData', testData)
       })
       .addCase(fetchAllCharacters.rejected, (state, action) => {
         state.isLoading = 'rejected';
@@ -102,5 +124,14 @@ const charactersSlice = createSlice({
   }
 })
 
-export const { setCurrentPage, setCharacters, setSearchCharacters, setPageQuantity } = charactersSlice.actions;
+export const {
+  setCurrentPage,
+  setFilteredCharacters,
+  setCharacters,
+  setSearchCharacters,
+  setPageQuantity
+} = charactersSlice.actions;
+
 export default charactersSlice.reducer;
+
+
