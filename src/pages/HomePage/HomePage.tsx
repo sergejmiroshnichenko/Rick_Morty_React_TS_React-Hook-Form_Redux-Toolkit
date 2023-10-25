@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
+import styles from './HomePage.module.scss';
 import { Layout } from 'components/Layout/Layout.tsx';
 import { ReactComponent as IconCharacters } from 'assets/SVG.svg';
-import styles from './HomePage.module.scss';
 import { PrimaryButton } from 'components/Button/Button.tsx';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks.ts';
 import { fetchAllCharacters } from 'store/slices/charactersSlice.ts';
@@ -18,21 +18,20 @@ export const HomePage: FC = () => {
 
   const dispatch = useAppDispatch();
 
-  const { characters, page, error, isLoading, searchCharacters } = useAppSelector(state => state.characters);
+  const { characters, error, isLoading, filterData, page } = useAppSelector(state => state.characters);
+
 
   const toggleButton = () => {
     setIsFilterActive(!isFilterActive)
   }
 
   useEffect(() => {
-    if (!characters) {
-      dispatch(fetchAllCharacters());
-    }
-  }, [characters, dispatch])
-
-  useEffect(() => {
-    dispatch(fetchAllCharacters({ character: { page, name: searchCharacters } }));
-  }, [page, dispatch, searchCharacters])
+    dispatch(fetchAllCharacters({
+      character: { ...filterData.character, page },
+      location: { ...filterData.location },
+      episode: { ...filterData.episode }
+    }));
+  }, [dispatch, filterData, page])
 
   return (
     <Layout className={styles.wrapper}>
@@ -56,7 +55,7 @@ export const HomePage: FC = () => {
             ? (
               <>
                 <div className={styles.contentContainer}>
-                  {characters?.slice(0, 6).map(character => (
+                  {characters?.slice(0, 8).map(character => (
                     <Link to={`/character/${character.id}`} key={character.id}>
                       <CharacterCard {...character} />
                     </Link>

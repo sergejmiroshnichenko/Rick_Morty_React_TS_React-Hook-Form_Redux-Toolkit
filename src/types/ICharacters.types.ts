@@ -56,7 +56,7 @@ export interface ICharacterFilter {
     species?: string;
     type?: string;
     gender?: string;
-    page?: number;
+    page: number;
 }
 
 export interface ICharactersFilter {
@@ -95,4 +95,22 @@ export interface IEpisode {
     url: string
     created: string
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
