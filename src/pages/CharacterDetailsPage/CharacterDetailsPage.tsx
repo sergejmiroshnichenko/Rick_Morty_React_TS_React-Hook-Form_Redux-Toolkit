@@ -6,12 +6,11 @@ import { ReactComponent as IconCharacters } from 'assets/SVG.svg';
 import { useParams } from 'react-router-dom';
 import { characterByIdClear, fetchCharacterById } from 'store/slices/characterByIdSlice.ts';
 import { CharacterCard } from 'components/CharactersCard/CharacterCard.tsx';
-import { CharacterProps } from 'types/ICharacters.types.ts';
 import { Loader } from 'components/Loader/Loader.tsx';
 import { CharactersInteractionMenu } from 'components/CharactersInteractionMenu/CharactersInteractionMenu.tsx';
 
 
-const CharacterDetailsPage: FC<CharacterProps> = () => {
+const CharacterDetailsPage: FC = () => {
 
   const { id } = useParams()
 
@@ -40,16 +39,7 @@ const CharacterDetailsPage: FC<CharacterProps> = () => {
             ?
             <>
               {characterDetails && (
-                <CharacterCard
-                  image={characterDetails.image}
-                  status={characterDetails.status}
-                  name={characterDetails.name}
-                  species={characterDetails.species}
-                  location={characterDetails.location}
-                  origin={characterDetails.origin}
-                  id={characterDetails.id}
-                  isCharacter
-                />
+                <CharacterCard {...characterDetails} isCharacter/>
               )}
               <CharactersInteractionMenu disabled/>
             </>

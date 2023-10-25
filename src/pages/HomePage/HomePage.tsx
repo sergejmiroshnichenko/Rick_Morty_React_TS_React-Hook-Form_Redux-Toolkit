@@ -55,7 +55,7 @@ export const HomePage: FC = () => {
             ? (
               <>
                 <div className={styles.contentContainer}>
-                  {characters?.slice(0, 8).map(character => (
+                  {characters?.slice(0, 6).map(character => (
                     <Link to={`/character/${character.id}`} key={character.id}>
                       <CharacterCard {...character} />
                     </Link>
